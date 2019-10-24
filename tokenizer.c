@@ -1,6 +1,7 @@
 
 #include <string.h>
 #include <stdio.h>
+#include <ctype.h>
 
 int N = 20; //variable for total length of input
 
@@ -21,6 +22,21 @@ int main() {
       str2[2*i + 1] = ' ';
     }
   }
+
+
+  for (int u = 0; u < sizeof(str2); u++) {  // function to ensure double digit numbers remain on same line
+    if (isdigit(str2[u])) {
+
+      if (isdigit(str2[u + 2])) {
+
+        for (int j = u + 1; j < sizeof(str2); j++) {
+          str2[j] = str2[j+1];
+
+        }
+      }
+    }
+  }
+
 
   const char s[2] = " ";  //delim setting for token splitting
 
