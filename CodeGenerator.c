@@ -2,8 +2,9 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <stdlib.h>
+#include <limits.h>
 
-#define MAX (100)
+//#define MAXSIZE (100)
 
 // This strcuture represents a stack
 struct Stack {
@@ -46,7 +47,7 @@ int pop(struct Stack* stack) {
     char data;
 
     if(!isempty(stack)) {
-      data = stack->top;
+      data = stack->array[stack->top];
       stack->top = stack->top - 1;
       return data;
     } else {
@@ -64,13 +65,9 @@ int push(struct Stack* stack,  int data) {
     }
   }
 
-const int max = 100;
-int N = 20; // max size of input
-struct Stack *stack = createStack(MAX);
-
 
 int main() {
-
+  int N = 50;
   FILE *input;
   FILE *output;
   char str[N]; // unprocessed input from file
@@ -83,19 +80,21 @@ int main() {
   char operand0;
   char operand1;
   double temp;
-  string result;
+  char result;
   int count = 0;
   char currentChar =  str[count];
-  char previousChar =  NULL;
+  char previousChar;
+
+  struct Stack* stack = createStack(100);
 
   // while there are more characters in the input
   while (str[count]) {
 
     // currentChar being operated on is set
-    currentChar = str[count]
+    currentChar = str[count];
 
     //  if the char is a space & the previous char is a number, previous number is pushed to the stack
-    if (currentChar == " " && isdigit(previousChar)) {
+    if (currentChar == ' ' && isdigit(previousChar)) {
       push(stack, previousChar);
 
     // else if the last char was a number and this char is a number the new number is made
@@ -103,25 +102,25 @@ int main() {
       currentChar = (previousChar * 10) + currentChar;
 
     // else if its not a digit and is not whitespace must be an operator
-    } else if (not (isdigit(currentChar) || currentChar == " ") {
+  } else if (!(isdigit(currentChar) || currentChar == ' ')) {
       operand0 = pop(stack);
       operand1 = pop(stack);
-      if (currentChar == "*") {
+      if (currentChar == '*') {
         temp = operand0*operand1;
         push(stack, temp);
-    } else if (currentChar == "/") {
+    } else if (currentChar == '/') {
         temp = operand1/operand0;
         push(stack, temp);
-    } else if (currentChar == "%") {
+    } else if (currentChar == '%') {
         temp = operand1 % operand0;
         push(stack, temp);
-    } else if (currentChar == "+") (
+    } else if (currentChar == '+') {
         temp = operand1 + operand0;
         push(stack, temp);
-    ) else if (currentChar == "-") {
+    } else if (currentChar == '-') {
         temp = operand1 - operand0;
         push(stack, temp);
-    } else if (currentChar == "^") {
+    } else if (currentChar == '^') {
         temp = operand1^operand0;
         push(stack, temp);
     }
@@ -134,7 +133,5 @@ int main() {
   result = pop(stack);
   fputs(result, output);
   fclose(output);
-
-
-
+}
 }
