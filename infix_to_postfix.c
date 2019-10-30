@@ -100,6 +100,7 @@ void InfixToPostfix(char infix_exp[], char postfix_exp[])
 	int i, j;
 	char item;
 	char x;
+  const char space[2] = " ";
 
 	push('(');                               /* push '(' onto stack */
 	strcat(infix_exp,")");                  /* add ')' to infix expression */
@@ -118,6 +119,8 @@ void InfixToPostfix(char infix_exp[], char postfix_exp[])
 		{
 			postfix_exp[j] = item;              /* add operand symbol to postfix expr */
 			j++;
+      postfix_exp[j] = *space;
+      j++;
 		}
 		else if(is_operator(item) == 1)        /* means symbol is operator */
 		{
@@ -126,6 +129,8 @@ void InfixToPostfix(char infix_exp[], char postfix_exp[])
 			{
 				postfix_exp[j] = x;                  /* so pop all higher precendence operator and */
 				j++;
+        postfix_exp[j] = *space;
+        j++;
 				x = pop();                       /* add them to postfix expresion */
 			}
 			push(x);
@@ -142,6 +147,8 @@ void InfixToPostfix(char infix_exp[], char postfix_exp[])
 			{
 				postfix_exp[j] = x;
 				j++;
+        postfix_exp[j] = *space;
+        j++;
 				x = pop();
 			}
 		}
@@ -163,15 +170,9 @@ void InfixToPostfix(char infix_exp[], char postfix_exp[])
 		getchar();
 		exit(1);
 	}
-	if(top>0)
-	{
-		printf("\nInvalid infix Expression.\n");        /* the it is illegeal  symbol */
-		getchar();
-		exit(1);
-	}
 
 
-	postfix_exp[j] = '\0'; /* add sentinel else puts() fucntion */
+	postfix_exp[j-1] = '\0'; /* add sentinel else puts() fucntion */
 	/* will print entire postfix[] array upto SIZE */
 
 }
@@ -199,22 +200,11 @@ int main()
 
 
 
-	/* why we asked the user to enter infix expression
-	* in parentheses ( )
-	* What changes are required in porgram to
-	* get rid of this restriction since it is not
-	* in algorithm
-	* */
-  /*
-	printf("ASSUMPTION: The infix expression contains single letter variables and single digit constants only.\n");
-	printf("\nEnter Infix expression : ");
-	gets(infix);*/
-
 	InfixToPostfix(infix,postfix);                   /* call to convert */
 	printf("Postfix Expression: ");
 	puts(postfix);                     /* print postfix expression */
 
-  const char s[2] = " ";  //delim setting for token splitting
+  const char s[2] = "";  //delim setting for token splitting
 
   char *token;
 
@@ -223,12 +213,11 @@ int main()
   FILE *output;
   char* outputfile = "outfix.txt";
   output = fopen(outputfile, "w");  //open output file in write mode
-
   while (token != NULL) { //loop through tokens and print to output file
 
     // printf("%s\n", token); use to print to screen
 
-    fprintf(output, "%s\t", token);
+    fprintf(output, "%s", token);
 
     token = strtok(NULL, s);
   }
