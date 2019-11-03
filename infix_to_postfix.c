@@ -1,9 +1,6 @@
 /* This program converts infix expression to postfix expression.
- * This program assume that there are Five operators: (*, /, +, -,^)
-	in infix expression and operands can be of single-digit only.
- * This program will not work for fractional numbers.
- * Further this program does not check whether infix expression is
- valid or not in terms of number of operators and operands.*/
+ * This program assume that there are Five operators: (*, /, +, -,^)
+	in infix expression and operands can be of integer or float type.*/
 
 #include<stdio.h>
 #include<stdlib.h>      /* for exit() */
@@ -115,10 +112,25 @@ void InfixToPostfix(char infix_exp[], char postfix_exp[])
 		{
 			push(item);
 		}
-		else if( isdigit(item) || isalpha(item))
+		else if( isdigit(item))
 		{
 			postfix_exp[j] = item;              /* add operand symbol to postfix expr */
 			j++;
+      int k = i;
+      char next_item;
+      while (1) {                       /* check if token is a multi-digit integer
+                                           or a float*/
+        k++;
+        next_item = infix_exp[k];
+        if (isdigit(next_item) || next_item == '.') {
+          postfix_exp[j] = next_item;
+          j++;
+          i = k;
+        } else {
+          break;
+        }
+      }
+
       postfix_exp[j] = *space;
       j++;
 		}
@@ -135,7 +147,7 @@ void InfixToPostfix(char infix_exp[], char postfix_exp[])
 			}
 			push(x);
 			/* because just above while loop will terminate we have
-			oppped one extra item
+			popped one extra item
 			for which condition fails and loop terminates, so that one*/
 
 			push(item);                 /* push current oprerator symbol onto stack */
@@ -178,13 +190,19 @@ void InfixToPostfix(char infix_exp[], char postfix_exp[])
 }
 
 /* main function begins */
-int main()
+int main(int argc, char *argv[])
 {
 	char infix[SIZE] = {0};
   char postfix[SIZE];         /* declare infix string and postfix string */
   char c[100];
+
+  if (argc != 2) {            /* check if user has passed argument for input file */
+  	fprintf(stderr, "Usage: %s \"<infix file>\"\n", argv[0]);
+  	exit(0);
+  }
+
   FILE *fptr;
-  if ((fptr = fopen("infix.txt", "r")) == NULL)
+  if ((fptr = fopen(argv[1], "r")) == NULL)
   {
       printf("Error! opening file");
       // Program exits if file pointer returns NULL.
@@ -194,7 +212,7 @@ int main()
   // reads text until newline
   while (fscanf(fptr,"%s", c) == 1) {
     strcat(infix,c);
-    printf("%s\n", infix);
+    // uncomment this to see the file being read line by line printf("%s\n", infix);
   }
   fclose(fptr);
 
@@ -214,8 +232,6 @@ int main()
   char* outputfile = "outfix.txt";
   output = fopen(outputfile, "w");  //open output file in write mode
   while (token != NULL) { //loop through tokens and print to output file
-
-    // printf("%s\n", token); use to print to screen
 
     fprintf(output, "%s", token);
 
