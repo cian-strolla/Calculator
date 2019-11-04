@@ -93,15 +93,23 @@ int main(int argc, char *argv[])
         p = strtok(line, s);
 
         while (p != NULL ) {      //looping through each token in the line
-            if (strcmp(p,integer) == 0) {   //checking if it is a loadint command
+            if (strcmp(p,integer) == 0) {
                 p = strtok(NULL,s);
-                push(stack, *p - '0');
+                int full_num = *p - '0';
+                int i = 1;
+                int next_char = p[i];
+                while (next_char != 10) {
+                    full_num = (full_num * 10) + (next_char - '0');
+                    i++;
+                    next_char = p[i];
+                }
+                push(stack, full_num);
                 p = strtok(NULL,s);
             } else if (strcmp(p,flt) == 0) {    //checking if it is a loadflt command
                 p = strtok(NULL,s);
                 push(stack, *p - '0');
                 p = strtok(NULL,s);
-            } else {                //if it is an operator, operate on the top two values of the stack 
+            } else {                //if it is an operator, operate on the top two values of the stack
                 int val1 = pop(stack);
                 int val2 = pop(stack);
                 if (strcmp(p,add) == 0) {
