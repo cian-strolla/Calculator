@@ -38,14 +38,14 @@ char peek(struct Stack* stack)
     return stack->array[stack->top];
 }
 
-char pop(struct Stack* stack)
+int pop(struct Stack* stack)
 {
     if (!isEmpty(stack))
         return stack->array[stack->top--] ;
     return '$';
 }
 
-void push(struct Stack* stack, char op)
+void push(struct Stack* stack, int op)
 {
     stack->array[++stack->top] = op;
 }
