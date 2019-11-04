@@ -93,7 +93,7 @@ int main(int argc, char *argv[])
         p = strtok(line, s);
 
         while (p != NULL ) {      //looping through each token in the line
-            if (strcmp(p,integer) == 0) {
+            if (strcmp(p,integer) == 0) {       //checking if it is a loadint command
                 p = strtok(NULL,s);
                 int full_num = *p - '0';
                 int i = 1;
