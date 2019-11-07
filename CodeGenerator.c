@@ -18,6 +18,7 @@ int main() {
   fgets(str, fileSize, input);
   fclose(input);
 
+  // creating/opening output file
   output =  fopen("codeGenOutput.txt", "w+");
 
   //  creating variables and pointers, default for currentOp is "LOADINT"
@@ -26,6 +27,7 @@ int main() {
   char currentNum[30];
   memset(currentNum, 0, sizeof currentNum);
 
+  // loops through each character in the file
   for (int i = 0; i < fileSize; i++) {
 
     // currentChar being operated on is set
