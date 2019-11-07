@@ -5,13 +5,12 @@
 
 int main() {
 
-  // creating files objects, determining input file size
+  // creating files pointers, determining input file size
   FILE *input;
   FILE *output;
   input = fopen("codeGenInput.txt", "r");
   fseek(input, 0L, SEEK_END);
   int fileSize = ftell(input);
-  printf("%i", fileSize);
   rewind(input);
 
   // creating char array 'str' where file contents will be stored
@@ -21,36 +20,39 @@ int main() {
 
   output =  fopen("codeGenOutput.txt", "w+");
 
+  //  creating variables and pointers, default for currentOp is "LOADINT"
   char current;
   char *currentOp = "LOADINT";
   char currentNum[30];
-  int count = 0;
+  memset(currentNum, 0, sizeof currentNum);
 
-  for (int i = 1; i < fileSize; i++) {
+  for (int i = 0; i < fileSize; i++) {
 
     // currentChar being operated on is set
     current = str[i];
-    printf("%c", current);
 
-     //  if the char is a space & the previous char is a number, operation and number are output to the file
+     //  if the char is a space or the final character & the previous char was a number, operation and number are output to the file
     if ((current == ' ' || i == fileSize-1) && (currentOp == "LOADFLT" || currentOp == "LOADINT")) {
       fprintf(output, "%s %s\n", currentOp, currentNum);
       currentOp = "LOADINT";
       memset(currentNum, 0, sizeof currentNum);
 
+    // if the char is a space or the final character & the previous char was an operator, the operator is written to the file
     } else if (current == ' ' || i == fileSize-1) {
       fprintf(output, "%s\n", currentOp);
       currentOp = "LOADINT";
       memset(currentNum, 0, sizeof currentNum);
 
-    // else if the last char was a number and this char is a number the new number is made
-  } else if (current == '.')  {
+    // if the character is a '.' the current op is changed to LOADFLT and the character is appended to currentNum
+    } else if (current == '.')  {
         strncat(currentNum, &current, 1);
         currentOp = "LOADFLT";
 
+    // else if the character is a number the digit is appended to currentNum
     } else if (isdigit(current)) {
         strncat(currentNum, &current, 1);
 
+    // otherwise it must be an operator & currentOp is changed accordingly
     } else {
         if (current == '+') {
           currentOp = "ADD";
