@@ -3,9 +3,11 @@
 #include <stdio.h>
 #include <ctype.h>
 
-int N = 20; //variable for total length of input
+int N = 999; //variable for total length of input
 
 int main() {
+
+  char period = '.';
 
   FILE *input;
   char str[N];  //will be full unprocessed string from input file
@@ -31,11 +33,23 @@ int main() {
 
         for (int j = u + 1; j < sizeof(str2); j++) {
           str2[j] = str2[j+1];
-
         }
+
+      }
+      if (str2[u + 2] == period) {
+
+        for (int j = u + 1; j < sizeof(str2); j++) {
+          str2[j] = str2[j+1];
+        }
+
+        for (int j = u + 1; j < sizeof(str2); j++) {
+          str2[j + 1] = str2[j + 2];
+        }
+
       }
     }
   }
+
 
 
   const char s[2] = " ";  //delim setting for token splitting
