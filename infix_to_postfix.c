@@ -96,7 +96,7 @@ int precedence(char symbol)
 	}
 }
 
-int InfixToPostfix(char infix_exp[], char postfix_exp[])
+int InfixToPostfix()
 {
 	int i, j;
 	char item;
@@ -104,11 +104,11 @@ int InfixToPostfix(char infix_exp[], char postfix_exp[])
   const char space[2] = " ";
 
 	push('(');                               /* push '(' onto stack */
-	strcat(infix_exp,")");                  /* add ')' to infix expression */
+	strcat(infix,")");                  /* add ')' to infix expression */
 
 	i=0;
 	j=0;
-	item=infix_exp[i];         /* initialize before loop*/
+	item=infix[i];         /* initialize before loop*/
 
 	while(item != '\0')        /* run loop till end of infix expression */
 	{
@@ -118,16 +118,16 @@ int InfixToPostfix(char infix_exp[], char postfix_exp[])
 		}
 		else if( isdigit(item))
 		{
-			postfix_exp[j] = item;              /* add operand symbol to postfix expr */
+			postfix[j] = item;              /* add operand symbol to postfix expr */
 			j++;
       int k = i;
       char next_item;
       while (1) {                       /* check if token is a multi-digit integer
                                            or a float*/
         k++;
-        next_item = infix_exp[k];
+        next_item = infix[k];
         if (isdigit(next_item) || next_item == '.') {
-          postfix_exp[j] = next_item;
+          postfix[j] = next_item;
           j++;
           i = k;
         } else {
@@ -135,7 +135,7 @@ int InfixToPostfix(char infix_exp[], char postfix_exp[])
         }
       }
 
-      postfix_exp[j] = *space;
+      postfix[j] = *space;
       j++;
 		}
 		else if(is_operator(item) == 1)        /* means symbol is operator */
@@ -143,9 +143,9 @@ int InfixToPostfix(char infix_exp[], char postfix_exp[])
 			x=pop();
 			while(is_operator(x) == 1 && precedence(x)>= precedence(item))
 			{
-				postfix_exp[j] = x;                  /* so pop all higher precendence operator and */
+				postfix[j] = x;                  /* so pop all higher precendence operator and */
 				j++;
-        postfix_exp[j] = *space;
+        postfix[j] = *space;
         j++;
 				x = pop();                       /* add them to postfix expresion */
 			}
@@ -161,9 +161,9 @@ int InfixToPostfix(char infix_exp[], char postfix_exp[])
 			x = pop();                   /* pop and keep popping until */
 			while(x != '(')                /* '(' encounterd */
 			{
-				postfix_exp[j] = x;
+				postfix[j] = x;
 				j++;
-        postfix_exp[j] = *space;
+        postfix[j] = *space;
         j++;
 				x = pop();
 			}
@@ -178,7 +178,7 @@ int InfixToPostfix(char infix_exp[], char postfix_exp[])
 		i++;
 
 
-		item = infix_exp[i]; /* go to next symbol of infix expression */
+		item = infix[i]; /* go to next symbol of infix expression */
 	} /* while loop ends here */
 	if(top>0)
 	{
@@ -188,7 +188,7 @@ int InfixToPostfix(char infix_exp[], char postfix_exp[])
 	}
 
 
-	postfix_exp[j-1] = '\0'; /* add sentinel else puts() fucntion */
+	postfix[j-1] = '\0'; /* add sentinel else puts() fucntion */
 	/* will print entire postfix[] array upto SIZE */
 
 	return 0;
@@ -240,11 +240,11 @@ int main(int argc, char *argv[])
 {
 	readfile("infix.txt");
 
-	InfixToPostfix(infix,postfix);                   /* call to convert */
+	InfixToPostfix();                   /* call to convert */
 	printf("Postfix Expression: ");
 	puts(postfix);                     /* print postfix expression */
 
-	writefile("postfix.txt;");
+	writefile("postfix.txt");
 
 	return 0;
 }
