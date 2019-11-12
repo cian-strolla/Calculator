@@ -101,7 +101,7 @@ int main(int argc, char *argv[])
                 p = strtok(NULL,s);
                 push(stack, *p - '0');
                 p = strtok(NULL,s);
-            } else {                //if it is an operator, operate on the top two values of the stack 
+            } else {                //if it is an operator, operate on the top two values of the stack
                 int val1 = pop(stack);
                 int val2 = pop(stack);
                 if (strcmp(p,add) == 0) {
