@@ -9,7 +9,7 @@ struct Stack
 {
     int top;
     unsigned capacity;
-    int* array;
+    double* array;
 };
 
 // Stack Operations
@@ -21,7 +21,7 @@ struct Stack* createStack( unsigned capacity )
 
     stack->top = -1;
     stack->capacity = capacity;
-    stack->array = (int*) malloc(stack->capacity * sizeof(int));
+    stack->array = (double*) malloc(stack->capacity * sizeof(double));
 
     if (!stack->array) return NULL;
 
@@ -38,14 +38,14 @@ char peek(struct Stack* stack)
     return stack->array[stack->top];
 }
 
-int pop(struct Stack* stack)
+double pop(struct Stack* stack)
 {
     if (!isEmpty(stack))
-        return stack->array[stack->top--] ;
+        return stack->array[stack->top--];
     return '$';
 }
 
-void push(struct Stack* stack, int op)
+void push(struct Stack* stack, double op)
 {
     stack->array[++stack->top] = op;
 }
@@ -64,7 +64,6 @@ int main(int argc, char *argv[])
     char *subtract = "SUB\n";
 
     struct Stack* stack = createStack(10000);
-
 
     if (argc != 2) {             //check if user has passed argument for input file
       fprintf(stderr, "Usage: %s \"<input file>\"\n", argv[0]);
@@ -86,16 +85,19 @@ int main(int argc, char *argv[])
     char *p;
 
 
-    while (fgets(line, sizeof(line), fptr)) {   //looping through each line
+    while (fgets(line, sizeof(line), fptr)) {
 
         const char s[2] = " ";
 
+
         p = strtok(line, s);
 
-        while (p != NULL ) {      //looping through each token in the line
-            if (strcmp(p,integer) == 0) {       //checking if it is a loadint command
+
+
+        while (p != NULL ) {
+            if (strcmp(p,integer) == 0) {
                 p = strtok(NULL,s);
-                int full_num = *p - '0';
+                double full_num = *p - '0';
                 int i = 1;
                 int next_char = p[i];
                 while (next_char != 10) {
@@ -105,13 +107,22 @@ int main(int argc, char *argv[])
                 }
                 push(stack, full_num);
                 p = strtok(NULL,s);
-            } else if (strcmp(p,flt) == 0) {    //checking if it is a loadflt command
+            } else if (strcmp(p,flt) == 0) {
                 p = strtok(NULL,s);
-                push(stack, *p - '0');
+                char flt_string[50];
+                int i = 0;
+                int next_char = p[i];
+                while (next_char != 10) {
+                    flt_string[i] = p[i];
+                    i++;
+                    next_char = p[i];
+                }
+                double flt_val = atof(flt_string);
+                push(stack, flt_val);
                 p = strtok(NULL,s);
-            } else {                //if it is an operator, operate on the top two values of the stack
-                int val1 = pop(stack);
-                int val2 = pop(stack);
+            } else {
+                double val1 = pop(stack);
+                double val2 = pop(stack);
                 if (strcmp(p,add) == 0) {
                     push(stack, val2 + val1);
                     p = strtok(NULL,s);
@@ -121,7 +132,7 @@ int main(int argc, char *argv[])
                     p = strtok(NULL,s);
                     break;
                 } else if (strcmp(p,multiply) == 0) {
-                    push(stack, val2 * val1);
+                    push(stack, val1 * val2);
                     p = strtok(NULL,s);
                     break;
                 } else if (strcmp(p,divide) == 0) {
@@ -139,8 +150,8 @@ int main(int argc, char *argv[])
 
     fclose(fptr);
 
-    int answer = pop(stack);
-    printf("%d", answer);
+    double answer = pop(stack);
+    printf("%.2f", answer);
 
     return 0;
 }
