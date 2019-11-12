@@ -9,6 +9,10 @@
 
 #define SIZE 100
 
+char infix[SIZE] = {0};
+char postfix[SIZE];         /* declare infix string and postfix strings
+ 														as gloabal variables*/
+
 
 /* declared here as global variable because stack[]
 * is used by more than one fucntions */
@@ -92,7 +96,7 @@ int precedence(char symbol)
 	}
 }
 
-void InfixToPostfix(char infix_exp[], char postfix_exp[])
+int InfixToPostfix(char infix_exp[], char postfix_exp[])
 {
 	int i, j;
 	char item;
@@ -187,17 +191,14 @@ void InfixToPostfix(char infix_exp[], char postfix_exp[])
 	postfix_exp[j-1] = '\0'; /* add sentinel else puts() fucntion */
 	/* will print entire postfix[] array upto SIZE */
 
+	return 0;
 }
 
-/* main function begins */
-int main(int argc, char *argv[])
-{
-	char infix[SIZE] = {0};
-  char postfix[SIZE];         /* declare infix string and postfix string */
+int readfile (char *infix_file) {
   char c[100];
 
   FILE *fptr;
-  if ((fptr = fopen("infix.txt", "r")) == NULL)
+  if ((fptr = fopen(infix_file, "r")) == NULL)
   {
       printf("Error! opening file");
       // Program exits if file pointer returns NULL.
@@ -210,21 +211,18 @@ int main(int argc, char *argv[])
     // uncomment this to see the file being read line by line printf("%s\n", infix);
   }
   fclose(fptr);
+	return 0;
+}
 
-
-
-	InfixToPostfix(infix,postfix);                   /* call to convert */
-	printf("Postfix Expression: ");
-	puts(postfix);                     /* print postfix expression */
-
-  const char s[2] = "";  //delim setting for token splitting
+int writefile (char *postfix_file) {
+	const char s[2] = "";  //delim setting for token splitting
 
   char *token;
 
   token = strtok(postfix, s);  //strtok function splitting string into tokens
 
   FILE *output;
-  char* outputfile = "postfix.txt";
+  char* outputfile = postfix_file;
   output = fopen(outputfile, "w");  //open output file in write mode
   while (token != NULL) { //loop through tokens and print to output file
 
@@ -234,6 +232,19 @@ int main(int argc, char *argv[])
   }
 	fprintf(output, "\n");
   fclose(output); //close output file
+	return 0;
+}
+
+/* main function begins */
+int main(int argc, char *argv[])
+{
+	readfile("infix.txt");
+
+	InfixToPostfix(infix,postfix);                   /* call to convert */
+	printf("Postfix Expression: ");
+	puts(postfix);                     /* print postfix expression */
+
+	writefile("postfix.txt;");
 
 	return 0;
 }
