@@ -1,137 +1,74 @@
 #include <string.h>
 #include <stdio.h>
-#include <ctype.h>
 #include <stdlib.h>
-#include <limits.h>
-
-//#define MAXSIZE (100)
-
-// This strcuture represents a stack
-struct Stack {
-  unsigned MAXSIZE;
-  int* array;
-  int top;
-};
-
-// Function to create an instance of a stack
-struct Stack* createStack(unsigned MAXSIZE)
-{
-    struct Stack* stack = (struct Stack*)malloc(sizeof(struct Stack));
-    stack->MAXSIZE = MAXSIZE;
-    stack->top = -1;
-    stack->array = (int*)malloc(stack->MAXSIZE * sizeof(int));
-    return stack;
-}
-
-int isempty(struct Stack* stack) {
-
-    if(stack->top == -1) {
-      return 1;
-    }
-    else {
-      return 0;
-    }
-  }
-
-int isfull(struct Stack* stack) {
-
-    if(stack->top == stack->MAXSIZE) {
-      return 1;
-    }
-    else {
-      return 0;
-    }
-  }
-
-int pop(struct Stack* stack) {
-    char data;
-
-    if(!isempty(stack)) {
-      data = stack->array[stack->top];
-      stack->top = stack->top - 1;
-      return data;
-    } else {
-      return -1;
-    }
-  }
-
-int push(struct Stack* stack,  int data) {
-
-    if(!isfull(stack)) {
-      stack->top = stack->top + 1;
-      stack->top = data;
-    } else {
-      return -1;
-    }
-  }
-
+#include <ctype.h>
 
 int main() {
-  int N = 50;
+
+  // creating files pointers, determining input file size
   FILE *input;
   FILE *output;
-  char str[N]; // unprocessed input from file
-  char* inputfile =  "codeGen_input.txt";
-  input = fopen(inputfile, "r");
-  while (fgets(str,  N, input) != NULL)
+  input = fopen("codeGenInput.txt", "r");
+  fseek(input, 0L, SEEK_END);
+  int fileSize = ftell(input);
+  rewind(input);
+
+  // creating char array 'str' where file contents will be stored
+  char str[fileSize];
+  fgets(str, fileSize, input);
   fclose(input);
 
-  char operator0;
-  char operand0;
-  char operand1;
-  double temp;
-  char result;
-  int count = 0;
-  char currentChar =  str[count];
-  char previousChar;
+  // creating/opening output file
+  output =  fopen("codeGenOutput.txt", "w+");
 
-  struct Stack* stack = createStack(100);
+  //  creating variables and pointers, default for currentOp is "LOADINT"
+  char current;
+  char *currentOp = "LOADINT";
+  char currentNum[30];
+  memset(currentNum, 0, sizeof currentNum);
 
-  // while there are more characters in the input
-  while (str[count]) {
+  // loops through each character in the file
+  for (int i = 0; i < fileSize; i++) {
 
     // currentChar being operated on is set
-    currentChar = str[count];
+    current = str[i];
 
-    //  if the char is a space & the previous char is a number, previous number is pushed to the stack
-    if (currentChar == ' ' && isdigit(previousChar)) {
-      push(stack, previousChar);
+     //  if the char is a space or the final character & the previous char was a number, operation and number are output to the file
+    if ((current == ' ' || i == fileSize-1) && (currentOp == "LOADFLT" || currentOp == "LOADINT")) {
+      fprintf(output, "%s %s\n", currentOp, currentNum);
+      currentOp = "LOADINT";
+      memset(currentNum, 0, sizeof currentNum);
 
-    // else if the last char was a number and this char is a number the new number is made
-    } else if (isdigit(currentChar) && isdigit(previousChar))  {
-      currentChar = (previousChar * 10) + currentChar;
+    // if the char is a space or the final character & the previous char was an operator, the operator is written to the file
+    } else if (current == ' ' || i == fileSize-1) {
+      fprintf(output, "%s\n", currentOp);
+      currentOp = "LOADINT";
+      memset(currentNum, 0, sizeof currentNum);
 
-    // else if its not a digit and is not whitespace must be an operator
-  } else if (!(isdigit(currentChar) || currentChar == ' ')) {
-      operand0 = pop(stack);
-      operand1 = pop(stack);
-      if (currentChar == '*') {
-        temp = operand0*operand1;
-        push(stack, temp);
-    } else if (currentChar == '/') {
-        temp = operand1/operand0;
-        push(stack, temp);
-    } else if (currentChar == '%') {
-        temp = operand1 % operand0;
-        push(stack, temp);
-    } else if (currentChar == '+') {
-        temp = operand1 + operand0;
-        push(stack, temp);
-    } else if (currentChar == '-') {
-        temp = operand1 - operand0;
-        push(stack, temp);
-    } else if (currentChar == '^') {
-        temp = operand1^operand0;
-        push(stack, temp);
+    // if the character is a '.' the current op is changed to LOADFLT and the character is appended to currentNum
+    } else if (current == '.')  {
+        strncat(currentNum, &current, 1);
+        currentOp = "LOADFLT";
+
+    // else if the character is a number the digit is appended to currentNum
+    } else if (isdigit(current)) {
+        strncat(currentNum, &current, 1);
+
+    // otherwise it must be an operator & currentOp is changed accordingly
+    } else {
+        if (current == '+') {
+          currentOp = "ADD";
+        }
+        else if (current == '-') {
+          currentOp = "SUB";
+        }
+        else if (current == '*') {
+          currentOp = "MUL";
+        }
+        else if (current == '/') {
+          currentOp = "DIV";
+        }
     }
-
-    previousChar = currentChar;
-    count ++;
   }
-
-  output = fopen("codeGen_output", "w");
-  result = pop(stack);
-  fputs(result, output);
   fclose(output);
-}
 }
