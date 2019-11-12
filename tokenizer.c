@@ -11,7 +11,7 @@ int main() {
 
   FILE *input;
   char str[N];  //will be full unprocessed string from input file
-  char* inputfile = "tokenizer_input.txt";
+  char* inputfile = "input.txt";
   input = fopen(inputfile, "r");  //open input file in read mode
   while (fgets(str, N, input) != NULL)  //get string from file and store in 'str'
   fclose(input);
@@ -59,7 +59,7 @@ int main() {
   token = strtok(str2, s);  //strtok function splitting string into tokens
 
   FILE *output;
-  char* outputfile = "tokenizer_output.txt";
+  char* outputfile = "infix.txt";
   output = fopen(outputfile, "w");  //open output file in write mode
 
   while (token != NULL) { //loop through tokens and print to output file

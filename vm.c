@@ -65,16 +65,10 @@ int main(int argc, char *argv[])
 
     struct Stack* stack = createStack(10000);
 
-    if (argc != 2) {             //check if user has passed argument for input file
-      fprintf(stderr, "Usage: %s \"<input file>\"\n", argv[0]);
-      exit(0);
-    }
-
     FILE *fptr;
-    char *input_file = argv[1];
 
 
-    if ((fptr = fopen(input_file, "r")) == NULL)
+    if ((fptr = fopen("code.txt", "r")) == NULL)
     {
         printf("Error! opening file");
         // Program exits if file pointer returns NULL.

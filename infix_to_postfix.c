@@ -196,13 +196,8 @@ int main(int argc, char *argv[])
   char postfix[SIZE];         /* declare infix string and postfix string */
   char c[100];
 
-  if (argc != 2) {            /* check if user has passed argument for input file */
-  	fprintf(stderr, "Usage: %s \"<infix file>\"\n", argv[0]);
-  	exit(0);
-  }
-
   FILE *fptr;
-  if ((fptr = fopen(argv[1], "r")) == NULL)
+  if ((fptr = fopen("infix.txt", "r")) == NULL)
   {
       printf("Error! opening file");
       // Program exits if file pointer returns NULL.
@@ -229,7 +224,7 @@ int main(int argc, char *argv[])
   token = strtok(postfix, s);  //strtok function splitting string into tokens
 
   FILE *output;
-  char* outputfile = "outfix.txt";
+  char* outputfile = "postfix.txt";
   output = fopen(outputfile, "w");  //open output file in write mode
   while (token != NULL) { //loop through tokens and print to output file
 
@@ -237,6 +232,7 @@ int main(int argc, char *argv[])
 
     token = strtok(NULL, s);
   }
+	fprintf(output, "\n");
   fclose(output); //close output file
 
 	return 0;

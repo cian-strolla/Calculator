@@ -8,7 +8,7 @@ int main() {
   // creating files pointers, determining input file size
   FILE *input;
   FILE *output;
-  input = fopen("codeGenInput.txt", "r");
+  input = fopen("postfix.txt", "r");
   fseek(input, 0L, SEEK_END);
   int fileSize = ftell(input);
   rewind(input);
@@ -19,7 +19,7 @@ int main() {
   fclose(input);
 
   // creating/opening output file
-  output =  fopen("codeGenOutput.txt", "w+");
+  output =  fopen("code.txt", "w+");
 
   //  creating variables and pointers, default for currentOp is "LOADINT"
   char current;
