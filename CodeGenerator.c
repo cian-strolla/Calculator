@@ -3,52 +3,62 @@
 #include <stdlib.h>
 #include <ctype.h>
 
-int main() {
-
-  // creating files pointers, determining input file size
+char * readFile() {
   FILE *input;
-  FILE *output;
   input = fopen("codeGenInput.txt", "r");
-  fseek(input, 0L, SEEK_END);
-  int fileSize = ftell(input);
-  rewind(input);
-
   // creating char array 'str' where file contents will be stored
-  char str[fileSize];
-  fgets(str, fileSize, input);
+  char * str = malloc(sizeof(char) * 999);
+  fgets(str, 999, input);
   fclose(input);
+  return str;
+}
 
-  // creating/opening output file
-  output =  fopen("codeGenOutput.txt", "w+");
+int writeFile(char inputString[]) {
+  FILE *output;
+  output = fopen("codeGenOutput.txt", "w+");
+  //fputs(output, inputString);
+  fprintf(output, "%s", inputString);
+  fclose(output);
+  return 0;
+}
+
+char * codeGenerator(char *inputString) {
 
   //  creating variables and pointers, default for currentOp is "LOADINT"
+  char *code = malloc(sizeof(char) * 999);
   char current;
-  char *currentOp = "LOADINT";
+  char *currentOp = "LOADINT ";
   char currentNum[30];
   memset(currentNum, 0, sizeof currentNum);
-
+  memset(code, 0, 999);
+  char newLine = '\n';
   // loops through each character in the file
-  for (int i = 0; i < fileSize; i++) {
-
+  //for(int i = 0; i<999; i++)
+  int i = 0;
+  current = inputString[i];
+  while (current != NULL) {
     // currentChar being operated on is set
-    current = str[i];
+    current = inputString[i];
 
      //  if the char is a space or the final character & the previous char was a number, operation and number are output to the file
-    if ((current == ' ' || i == fileSize-1) && (currentOp == "LOADFLT" || currentOp == "LOADINT")) {
-      fprintf(output, "%s %s\n", currentOp, currentNum);
-      currentOp = "LOADINT";
+    if ((current == ' ' || current == '\n') && (currentOp == "LOADFLT " || currentOp == "LOADINT ")) {
+      strcat(code, currentOp);
+      strcat(code, currentNum);
+      strncat(code, &newLine, 1);
+      currentOp = "LOADINT ";
       memset(currentNum, 0, sizeof currentNum);
 
     // if the char is a space or the final character & the previous char was an operator, the operator is written to the file
-    } else if (current == ' ' || i == fileSize-1) {
-      fprintf(output, "%s\n", currentOp);
-      currentOp = "LOADINT";
+  } else if (current == ' ' || current == '\n') {
+      strcat(code, currentOp);
+      strncat(code, &newLine, 1);
+      currentOp = "LOADINT ";
       memset(currentNum, 0, sizeof currentNum);
 
     // if the character is a '.' the current op is changed to LOADFLT and the character is appended to currentNum
-    } else if (current == '.')  {
+    } else if (current == '.') {
         strncat(currentNum, &current, 1);
-        currentOp = "LOADFLT";
+        currentOp = "LOADFLT ";
 
     // else if the character is a number the digit is appended to currentNum
     } else if (isdigit(current)) {
@@ -68,7 +78,14 @@ int main() {
         else if (current == '/') {
           currentOp = "DIV";
         }
+      }
+      i++;
     }
+    return code;
   }
-  fclose(output);
+
+int main() {
+  char * input = readFile();
+  char * code = codeGenerator(input);
+  writeFile(code);
 }
