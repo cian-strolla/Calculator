@@ -5,7 +5,16 @@
 
 char * readFile() {
   FILE *input;
+<<<<<<< HEAD
   input = fopen("codeGenInput.txt", "r");
+=======
+  FILE *output;
+  input = fopen("postfix.txt", "r");
+  fseek(input, 0L, SEEK_END);
+  int fileSize = ftell(input);
+  rewind(input);
+
+>>>>>>> b93cd41644f2bf8a401b66e2dc7b51d87d6f6e3b
   // creating char array 'str' where file contents will be stored
   char * str = malloc(sizeof(char) * 999);
   fgets(str, 999, input);
@@ -22,7 +31,12 @@ int writeFile(char inputString[]) {
   return 0;
 }
 
+<<<<<<< HEAD
 char * codeGenerator(char *inputString) {
+=======
+  // creating/opening output file
+  output =  fopen("code.txt", "w+");
+>>>>>>> b93cd41644f2bf8a401b66e2dc7b51d87d6f6e3b
 
   //  creating variables and pointers, default for currentOp is "LOADINT"
   char *code = malloc(sizeof(char) * 999);
