@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <ctype.h>
 
+
+// Function to read a string from a file
 char * readFile() {
   FILE *input;
   input = fopen("codeGenInput.txt", "r");
@@ -13,15 +15,17 @@ char * readFile() {
   return str;
 }
 
+// Function to write a string to a file
 int writeFile(char inputString[]) {
   FILE *output;
   output = fopen("codeGenOutput.txt", "w+");
-  //fputs(output, inputString);
   fprintf(output, "%s", inputString);
   fclose(output);
   return 0;
 }
 
+
+// Function that performs the code generation from an input string and returns the code as a string
 char * codeGenerator(char *inputString) {
 
   //  creating variables and pointers, default for currentOp is "LOADINT"
