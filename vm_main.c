@@ -1,14 +1,9 @@
 #include<stdio.h>
-#include<stdlib.h>      /* for exit() */
-#include<ctype.h>     /* for isdigit(char ) */
-#include<string.h>
 
-char *integer = "LOADINT";
-char *flt = "LOADFLT";
-char *multiply = "MUL\n";
-char *divide = "DIV\n";
-char *add = "ADD\n";
-char *subtract = "SUB\n";
+struct Stack* createStack( unsigned capacity );
+int readfile (char *code_file);
+int calculate();
+double pop(struct Stack* stack);
 
 FILE *fptr;
 
