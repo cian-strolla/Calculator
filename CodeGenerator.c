@@ -16,7 +16,7 @@ char * readFile() {
 }
 
 // Function to write a string to a file
-int writeFile(char inputString[]) {
+int writeFile(char * inputString) {
   FILE *output;
   output = fopen("codeGenOutput.txt", "w+");
   fprintf(output, "%s", inputString);
