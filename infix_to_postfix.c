@@ -9,6 +9,10 @@
 
 #define SIZE 100
 
+char infix[SIZE] = {0};
+char postfix[SIZE];         /* declare infix string and postfix strings
+ 														as gloabal variables*/
+
 
 /* declared here as global variable because stack[]
 * is used by more than one fucntions */
@@ -92,7 +96,7 @@ int precedence(char symbol)
 	}
 }
 
-void InfixToPostfix(char infix_exp[], char postfix_exp[])
+int InfixToPostfix()
 {
 	int i, j;
 	char item;
@@ -100,11 +104,11 @@ void InfixToPostfix(char infix_exp[], char postfix_exp[])
   const char space[2] = " ";
 
 	push('(');                               /* push '(' onto stack */
-	strcat(infix_exp,")");                  /* add ')' to infix expression */
+	strcat(infix,")");                  /* add ')' to infix expression */
 
 	i=0;
 	j=0;
-	item=infix_exp[i];         /* initialize before loop*/
+	item=infix[i];         /* initialize before loop*/
 
 	while(item != '\0')        /* run loop till end of infix expression */
 	{
@@ -114,16 +118,16 @@ void InfixToPostfix(char infix_exp[], char postfix_exp[])
 		}
 		else if( isdigit(item))
 		{
-			postfix_exp[j] = item;              /* add operand symbol to postfix expr */
+			postfix[j] = item;              /* add operand symbol to postfix expr */
 			j++;
       int k = i;
       char next_item;
       while (1) {                       /* check if token is a multi-digit integer
                                            or a float*/
         k++;
-        next_item = infix_exp[k];
+        next_item = infix[k];
         if (isdigit(next_item) || next_item == '.') {
-          postfix_exp[j] = next_item;
+          postfix[j] = next_item;
           j++;
           i = k;
         } else {
@@ -131,7 +135,7 @@ void InfixToPostfix(char infix_exp[], char postfix_exp[])
         }
       }
 
-      postfix_exp[j] = *space;
+      postfix[j] = *space;
       j++;
 		}
 		else if(is_operator(item) == 1)        /* means symbol is operator */
@@ -139,9 +143,9 @@ void InfixToPostfix(char infix_exp[], char postfix_exp[])
 			x=pop();
 			while(is_operator(x) == 1 && precedence(x)>= precedence(item))
 			{
-				postfix_exp[j] = x;                  /* so pop all higher precendence operator and */
+				postfix[j] = x;                  /* so pop all higher precendence operator and */
 				j++;
-        postfix_exp[j] = *space;
+        postfix[j] = *space;
         j++;
 				x = pop();                       /* add them to postfix expresion */
 			}
@@ -157,9 +161,9 @@ void InfixToPostfix(char infix_exp[], char postfix_exp[])
 			x = pop();                   /* pop and keep popping until */
 			while(x != '(')                /* '(' encounterd */
 			{
-				postfix_exp[j] = x;
+				postfix[j] = x;
 				j++;
-        postfix_exp[j] = *space;
+        postfix[j] = *space;
         j++;
 				x = pop();
 			}
@@ -174,7 +178,7 @@ void InfixToPostfix(char infix_exp[], char postfix_exp[])
 		i++;
 
 
-		item = infix_exp[i]; /* go to next symbol of infix expression */
+		item = infix[i]; /* go to next symbol of infix expression */
 	} /* while loop ends here */
 	if(top>0)
 	{
@@ -184,25 +188,17 @@ void InfixToPostfix(char infix_exp[], char postfix_exp[])
 	}
 
 
-	postfix_exp[j-1] = '\0'; /* add sentinel else puts() fucntion */
+	postfix[j-1] = '\0'; /* add sentinel else puts() fucntion */
 	/* will print entire postfix[] array upto SIZE */
 
+	return 0;
 }
 
-/* main function begins */
-int main(int argc, char *argv[])
-{
-	char infix[SIZE] = {0};
-  char postfix[SIZE];         /* declare infix string and postfix string */
+int readfile (char *infix_file) {
   char c[100];
 
-  if (argc != 2) {            /* check if user has passed argument for input file */
-  	fprintf(stderr, "Usage: %s \"<infix file>\"\n", argv[0]);
-  	exit(0);
-  }
-
   FILE *fptr;
-  if ((fptr = fopen(argv[1], "r")) == NULL)
+  if ((fptr = fopen(infix_file, "r")) == NULL)
   {
       printf("Error! opening file");
       // Program exits if file pointer returns NULL.
@@ -215,21 +211,18 @@ int main(int argc, char *argv[])
     // uncomment this to see the file being read line by line printf("%s\n", infix);
   }
   fclose(fptr);
+	return 0;
+}
 
-
-
-	InfixToPostfix(infix,postfix);                   /* call to convert */
-	printf("Postfix Expression: ");
-	puts(postfix);                     /* print postfix expression */
-
-  const char s[2] = "";  //delim setting for token splitting
+int writefile (char *postfix_file) {
+	const char s[2] = "";  //delim setting for token splitting
 
   char *token;
 
   token = strtok(postfix, s);  //strtok function splitting string into tokens
 
   FILE *output;
-  char* outputfile = "outfix.txt";
+  char* outputfile = postfix_file;
   output = fopen(outputfile, "w");  //open output file in write mode
   while (token != NULL) { //loop through tokens and print to output file
 
@@ -237,7 +230,7 @@ int main(int argc, char *argv[])
 
     token = strtok(NULL, s);
   }
+	fprintf(output, "\n");
   fclose(output); //close output file
-
 	return 0;
 }
