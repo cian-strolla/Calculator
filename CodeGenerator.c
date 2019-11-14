@@ -18,7 +18,6 @@ int readFile() {
     return 1;
   }
   if (fgets(postfix, 999, input) != NULL) {
-    printf("read file\n");
     return 0;
   }
   else {
@@ -33,7 +32,6 @@ int writeFile() {
   output = fopen("code.txt", "w+");
   fprintf(output, "%s", code);
   fclose(output);
-  printf("wrote to file\n");
   return 0;
 }
 
@@ -97,6 +95,5 @@ int codeGenerator() {
       }
       i++;
     }
-    printf("generated code\n");
     return 0;
   }
