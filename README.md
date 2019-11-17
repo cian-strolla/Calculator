@@ -1,9 +1,8 @@
 Calculator Master ReadMe:
 
 ########################
-
-Tokenizer ReadMe:
-
-The Tokenizer will accept an input text file containing characters.
-It will split the characters into tokens and then output to the output file with each token on a separate line.
+Virtual Machine ReadMe:
+-------------------------
+The Virtual Machine takes an input file which has been written by the code generator.
+It reads this file, calculates the answer, and prints it to stdout.
 
