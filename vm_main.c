@@ -18,8 +18,12 @@ int main(int argc, char *argv[])
 
     calculate();
 
+    fclose(fptr);     //close the input file
+
     double answer = pop(stack);
     printf("%.2f", answer);
+
+
 
     return 0;
 }
