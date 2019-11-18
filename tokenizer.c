@@ -58,15 +58,3 @@ int printToFile(char *outputfile) {
   fclose(output); //close output file
   return(0);
 }
-
-
-int main() {
-
-  loadStringFromFile("input.txt");
-
-  toToken();
-
-  printToFile("infix.txt");
-
-  return(0);
-}
