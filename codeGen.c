@@ -3,33 +3,43 @@
 #include <stdlib.h>
 #include <ctype.h>
 
+#define NUMBER 999
+
+char postfix[NUMBER];
+char code[NUMBER];
 
 // Function to read a string from a file
-char * readFile() {
+int readFile() {
   FILE *input;
-  input = fopen("codeGenInput.txt", "r");
+  input = fopen("postfix.txt", "r");
   // creating char array 'str' where file contents will be stored
-  char * str = malloc(sizeof(char) * 999);
-  fgets(str, 999, input);
-  fclose(input);
-  return str;
+  if (input == NULL) {
+    perror("Error opening input file \"postfix.txt\"");
+    return 1;
+  }
+  if (fgets(postfix, 999, input) != NULL) {
+    return 0;
+  }
+  else {
+    perror("Error reading \"postfix.txt\"");
+    return 1;
+  }
 }
 
 // Function to write a string to a file
-int writeFile(char * inputString) {
+int writeFile() {
   FILE *output;
-  output = fopen("codeGenOutput.txt", "w+");
-  fprintf(output, "%s", inputString);
+  output = fopen("code.txt", "w+");
+  fprintf(output, "%s", code);
   fclose(output);
   return 0;
 }
 
 
 // Function that performs the code generation from an input string and returns the code as a string
-char * codeGenerator(char *inputString) {
+int codeGenerator() {
 
   //  creating variables and pointers, default for currentOp is "LOADINT"
-  char *code = malloc(sizeof(char) * 999);
   char current;
   char *currentOp = "LOADINT ";
   char currentNum[30];
@@ -39,10 +49,10 @@ char * codeGenerator(char *inputString) {
   // loops through each character in the file
   //for(int i = 0; i<999; i++)
   int i = 0;
-  current = inputString[i];
-  while (current != NULL) {
+  current = postfix[i];
+  while (current) {
     // currentChar being operated on is set
-    current = inputString[i];
+    current = postfix[i];
 
      //  if the char is a space or the final character & the previous char was a number, operation and number are output to the file
     if ((current == ' ' || current == '\n') && (currentOp == "LOADFLT " || currentOp == "LOADINT ")) {
@@ -85,11 +95,5 @@ char * codeGenerator(char *inputString) {
       }
       i++;
     }
-    return code;
+    return 0;
   }
-
-int main() {
-  char * input = readFile();
-  char * code = codeGenerator(input);
-  writeFile(code);
-}
