@@ -6,6 +6,7 @@
 #include<stdlib.h>      /* for exit() */
 #include<ctype.h>     /* for isdigit(char ) */
 #include<string.h>
+#include "infix_to_postfix.h"
 
 #define SIZE 100
 

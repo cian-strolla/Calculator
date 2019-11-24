@@ -1,11 +1,5 @@
 #include <stdio.h>
-
-int readfile (char *infix_file);
-int InfixToPostfix();
-int puts(const char *str);
-int writefile (char *postfix_file);
-
-char postfix[100];
+#include "infix_to_postfix.h"
 
 
 /* main function begins */

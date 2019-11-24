@@ -2,6 +2,7 @@
 #include<stdlib.h>      /* for exit() */
 #include<ctype.h>     /* for isdigit(char ) */
 #include<string.h>
+#include "vm.h"
 
 char *integer = "LOADINT";  // defining code generator instruction set
 char *flt = "LOADFLT";
@@ -74,6 +75,7 @@ int readfile (char *code_file) {
 }
 
 int calculate() {   // defining function which will calculate the final answer
+  struct Stack* stack = createStack(10000);
   char line[256];
   char *p;
 
@@ -138,5 +140,9 @@ int calculate() {   // defining function which will calculate the final answer
 
   }
 
+  double answer = pop(stack);
+  printf("%.2f\n", answer);
+
+  fclose(fptr);     //close the input file
   return 0;
 }
