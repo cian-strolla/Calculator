@@ -2,17 +2,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-char inputfile[100];
-char printer[100];
-char runner[100];
-
 int main(int argc, char* argv[]) {
-  
-  inputfile == argv[1];
-  printer == "cat ";
+  char *inputfile = argv[1];
+  char heading[100] = "Testing ";
+  strcat(heading, inputfile);
+  printf("%s\n", heading);
+  char printer[100] = "cat ";
   strcat(printer, inputfile);
-  printf("%s\n", printer);
-  runner == "./tokenizer ";
+  char runner[100] = "./tokenizer ";
   strcat(runner, inputfile);
   printf("Inital Input: \n");
   system(printer);
@@ -32,6 +29,7 @@ int main(int argc, char* argv[]) {
   printf("Result: \n");
   system("./vm");
   printf("\n");
+
 
   return 0;
 
