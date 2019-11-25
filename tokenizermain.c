@@ -1,8 +1,8 @@
 #include "tokenizer.h"
 
-int main() {
+int main(int argc, char* argv[]) {
 
-  loadStringFromFile("input.txt");
+  loadStringFromFile(argv[1]);
 
   toToken();
 
