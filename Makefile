@@ -12,7 +12,7 @@ codeGen: main_codeGen.c codeGen.c
 vm: vm_main.c vm.c
 	gcc -o vm vm_main.c vm.c
 
-test: tester test_tokenizer test_i2p test_codeGen test_vm inputtester
+test: tester test_tokenizer test_i2p test_codeGen test_vm inputtester test_tokenizer_i2p test_i2p_codeGen test_codeGen_vm
 
 tester: test_system.c
 	gcc -o tester test_system.c
@@ -39,7 +39,7 @@ test_vm: vm.c test_vm.c
 
 test_tokenizer_i2p: test_tokenizer_i2p.c
 	gcc -o test_tokenizer_i2p test_tokenizer_i2p.c
-	./test_tokenizer_i2p
+	./test_tokenizer_i2p input1.txt
 
 test_i2p_codeGen: test_i2p_codeGen.c
 	gcc -o test_i2p_codeGen test_i2p_codeGen.c
