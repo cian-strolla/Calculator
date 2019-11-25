@@ -1,8 +1,5 @@
 #include <stdio.h>
-
-int readFile();
-int codeGenerator();
-int writeFile();
+#include "codeGen.h"
 
 int main() {
   readFile();
