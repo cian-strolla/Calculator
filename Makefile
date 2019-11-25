@@ -37,6 +37,18 @@ test_vm: vm.c test_vm.c
 	./test_vm
 	prove ./test_vm
 
+test_tokenizer_i2p: test_tokenizer_i2p.c
+	gcc -o test_tokenizer_i2p test_tokenizer_i2p.c
+	./test_tokenizer_i2p
+
+test_i2p_codeGen: test_i2p_codeGen.c
+	gcc -o test_i2p_codeGen test_i2p_codeGen.c
+	./test_i2p_codeGen
+
+test_codeGen_vm: test_codeGen_vm.c
+	gcc -o test_codeGen_vm test_codeGen_vm.c
+	./test_codeGen_vm
+
 inputtester: tokenizer tester
 	./tester input1.txt
 	./tester input2.txt
