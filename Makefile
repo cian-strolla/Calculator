@@ -1,4 +1,4 @@
-all: tokenizer i2p codeGen vm test test_tokenizer test_i2p test_codeGen test_vm
+all: tokenizer i2p codeGen vm
 
 tokenizer: tokenizermain.c tokenizer.c
 	gcc -o tokenizer tokenizermain.c tokenizer.c
@@ -12,7 +12,7 @@ codeGen: main_codeGen.c codeGen.c
 vm: vm_main.c vm.c
 	gcc -o vm vm_main.c vm.c
 
-test: test.c
+test: test.c test_tokenizer test_i2p test_codeGen test_vm
 	gcc -o tester test.c
 	./tester
 

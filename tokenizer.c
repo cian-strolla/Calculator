@@ -12,7 +12,7 @@ char period = '.';
 const char s[2] = " ";
 char *token;
 
-int loadStringFromFile(char *inputfile) {
+int loadStringFromFile(char *inputfile) { //opens input file and reads in the input
   FILE *input;
   input = fopen(inputfile, "r");
   while (fgets(str, N, input) != NULL)
