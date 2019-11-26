@@ -1,3 +1,8 @@
+/*
+Authors: Cian Strolla, Ronan Murphy, Anthony Flavin
+This program takes infix notation and converts it to postfix notation.
+*/
+
 #include <stdio.h>
 #include "infix_to_postfix.h"
 

@@ -1,3 +1,8 @@
+/*
+Authors: Cian Strolla, Ronan Murphy, Anthony Flavin
+Test file for tokenizer.
+*/
+
 #include <ctap.h>
 #include "tokenizer.h"
 

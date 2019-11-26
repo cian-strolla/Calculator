@@ -1,6 +1,7 @@
-/* This program converts infix expression to postfix expression.
- * This program assume that there are Five operators: (*, /, +, -,^)
-	in infix expression and operands can be of integer or float type.*/
+/*
+Authors: Cian Strolla, Ronan Murphy, Anthony Flavin
+This program takes infix notation and converts it to postfix notation.
+*/
 
 #include<stdio.h>
 #include<stdlib.h>      /* for exit() */

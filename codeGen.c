@@ -1,3 +1,9 @@
+/*
+Authors: Cian Strolla, Ronan Murphy, Anthony Flavin
+This program takes postfix notation and generates
+the code for the virtual machine.
+*/
+
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>

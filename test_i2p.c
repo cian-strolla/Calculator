@@ -1,3 +1,8 @@
+/*
+Authors: Cian Strolla, Ronan Murphy, Anthony Flavin
+Test file for infix to postfix converter.
+*/
+
 #include <ctap.h>
 
 int readfile(char *infix_file);

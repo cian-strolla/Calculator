@@ -1,3 +1,7 @@
+/*
+Authors: Cian Strolla, Ronan Murphy, Anthony Flavin
+This programs takes an expression and produces a tokenized output.
+*/
 
 #include <string.h>
 #include <stdio.h>

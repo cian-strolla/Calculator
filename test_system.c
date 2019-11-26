@@ -1,3 +1,8 @@
+/*
+Authors: Cian Strolla, Ronan Murphy, Anthony Flavin
+Main test file for entire system.
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

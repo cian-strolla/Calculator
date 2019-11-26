@@ -1,3 +1,8 @@
+/*
+Authors: Cian Strolla, Ronan Murphy, Anthony Flavin
+Test file for virtual machine.
+*/
+
 #include <ctap.h>
 
 int readfile(char *code_file);

@@ -1,3 +1,9 @@
+/*
+Authors: Cian Strolla, Ronan Murphy, Anthony Flavin
+Header file for infix to postfix converter.
+*/
+
+
 void push(char item);
 char pop();
 int is_operator(char symbol);

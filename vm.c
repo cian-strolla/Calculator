@@ -1,3 +1,9 @@
+/*
+Authors: Cian Strolla, Ronan Murphy, Anthony Flavin
+This programs takes the generated code and computes the answer to the original
+expression.
+*/
+
 #include<stdio.h>
 #include<stdlib.h>      /* for exit() */
 #include<ctype.h>     /* for isdigit(char ) */

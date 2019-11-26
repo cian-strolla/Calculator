@@ -1,3 +1,8 @@
+/*
+Authors: Cian Strolla, Ronan Murphy, Anthony Flavin
+Integration test for tokenizer and infix to postfix converter.
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

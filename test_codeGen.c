@@ -1,3 +1,8 @@
+/*
+Authors: Cian Strolla, Ronan Murphy, Anthony Flavin
+Test flie for Code Generator.
+*/
+
 #include <ctap.h>
 #include "codeGen.h"
 
